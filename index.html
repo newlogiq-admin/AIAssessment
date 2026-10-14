@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Readiness Assessment | Newlogiq</title>
+<meta name="description" content="A 12-minute self-assessment that shows where your business stands on AI and where to start.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12263A; --paper:#F5F7F8; --white:#FFFFFF; --teal:#0F7B8A; --teal-deep:#0B5C68; --teal-wash:#E6F2F4;
+  --gold:#E3A82B; --gold-deep:#8A5F00; --slate:#516170; --line:#D3DCE2; --alert:#B3402A;
+  --display:'Bricolage Grotesque','Avenir Next','Segoe UI',system-ui,sans-serif;
+  --body:'Source Sans 3','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0 0 .5em;font-weight:700;letter-spacing:-.01em}
+h1{font-size:clamp(2.1rem,5vw,3.4rem)}
+h2{font-size:clamp(1.5rem,3vw,2rem)}
+h3{font-size:1.15rem}
+p{margin:0 0 1em}
+a{color:var(--teal-deep)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+[tabindex="-1"]:focus{outline:none}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+header.top{background:var(--ink);color:#fff}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:14px;padding-bottom:14px}
+.mark{font-family:var(--display);font-weight:700;font-size:1.25rem;letter-spacing:-.01em}
+.mark span{color:var(--gold)}
+header.top small{opacity:.8;font-size:.95rem}
+main{padding:40px 0 72px}
+[hidden]{display:none!important}
+
+/* buttons */
+.btn{font:600 1rem var(--body);border-radius:6px;padding:13px 24px;border:2px solid var(--ink);cursor:pointer;background:var(--ink);color:#fff;text-decoration:none;display:inline-block}
+.btn:hover{background:#1d3a56}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--teal-wash)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.link{background:none;border:0;padding:0;font:inherit;color:var(--teal-deep);text-decoration:underline;cursor:pointer}
+
+/* intro */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.hero .lead{font-size:1.2rem;color:var(--slate);max-width:34em}
+.hero ul{padding:0;margin:28px 0;list-style:none}
+.hero li{padding:10px 0;border-top:1px solid var(--line)}
+.hero li:last-child{border-bottom:1px solid var(--line)}
+.hero li strong{display:block}
+.sample{position:relative}
+.sample figcaption{text-align:center;color:var(--slate);font-size:.9rem;margin-top:4px}
+
+/* forms */
+.panel{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:32px}
+.field{margin-bottom:22px}
+label.lbl,.lbl{display:block;font-weight:600;margin-bottom:6px}
+.hint{color:var(--slate);font-size:.95rem;font-weight:400}
+input[type=text],input[type=email],select,textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid #9AA9B5;border-radius:6px;background:#fff;color:var(--ink)}
+textarea{min-height:92px;resize:vertical}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.98rem}
+.check input{margin-top:5px;width:18px;height:18px;flex:none}
+.err{color:var(--alert);font-size:.95rem;margin-top:8px}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px;flex-wrap:wrap}
+
+/* assessment layout */
+.shell{display:grid;grid-template-columns:250px 1fr;gap:40px}
+.rail{position:sticky;top:20px;align-self:start;font-size:.97rem}
+.rail h3{font-size:.95rem;color:var(--slate);font-family:var(--body);font-weight:600;margin:18px 0 6px}
+.rail h3:first-child{margin-top:0}
+.rail ol{list-style:none;margin:0;padding:0}
+.rail li{margin:0}
+.rail .item{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:6px 8px;border-radius:6px;font:inherit;color:var(--slate);cursor:default}
+.rail .dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);flex:none}
+.rail .done .dot{background:var(--teal);border-color:var(--teal)}
+.rail .done .item{color:var(--ink);cursor:pointer}
+.rail .done .item:hover{background:var(--teal-wash)}
+.rail .current .item{color:var(--ink);font-weight:700;background:var(--teal-wash)}
+.rail .current .dot{border-color:var(--teal);background:#fff}
+.mobile-progress{display:none;margin-bottom:20px}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--teal);border-radius:4px}
+.step-intro{color:var(--slate);margin-bottom:24px}
+.q{border:0;padding:0;margin:0 0 30px}
+.q legend{font-weight:600;padding:0;margin-bottom:10px;font-size:1.05rem}
+.opt{position:relative;display:block;margin-bottom:8px}
+.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opt span{display:block;padding:12px 14px 12px 44px;border:1px solid #AAB7C1;border-radius:8px;background:#fff;position:relative;font-size:1rem;line-height:1.4}
+.opt span::before{content:'';position:absolute;left:14px;top:14px;width:18px;height:18px;border:2px solid #7C8B97;border-radius:50%;background:#fff}
+.opt:hover span{border-color:var(--teal)}
+.opt input:checked + span{border-color:var(--teal);background:var(--teal-wash)}
+.opt input:checked + span::before{border-color:var(--teal);background:radial-gradient(circle,var(--teal) 0 45%,#fff 50%)}
+.opt input:focus-visible + span{outline:3px solid var(--gold);outline-offset:2px}
+.skip{border-top:1px solid var(--line);padding-top:16px;margin-top:8px}
+.skipped-note{color:var(--slate);font-style:italic}
+
+/* results */
+.res-top{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.score{font-family:var(--display);font-weight:700;font-size:clamp(3.4rem,8vw,5.2rem);line-height:1;color:var(--teal-deep)}
+.score small{font-size:1.4rem;color:var(--slate);font-weight:500}
+.bandname{font-family:var(--display);font-size:1.6rem;font-weight:700;margin:6px 0 10px}
+.res-list{padding-left:1.1em;margin:0 0 1em}
+.res-list li{margin-bottom:6px}
+table.map{width:100%;border-collapse:collapse;font-size:1rem;margin-top:8px}
+table.map th{text-align:left;font-weight:600;color:var(--slate);padding:8px 10px;border-bottom:2px solid var(--line);font-size:.95rem}
+table.map td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.meter{height:10px;background:#E4EAEE;border-radius:5px;min-width:90px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--teal)}
+.meter.f i{background:var(--gold)}
+.tag{display:inline-block;font-weight:600;font-size:.9rem;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.tag.quick{background:#D6EFE3;color:#14573A}
+.tag.foundation{background:#FBE9C6;color:var(--gold-deep)}
+.tag.ahead{background:var(--teal-wash);color:var(--teal-deep)}
+.tag.later{background:#E9EDF0;color:var(--slate)}
+.cta{margin-top:40px;background:var(--ink);color:#fff;border-radius:12px;padding:32px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.cta h2{color:#fff;margin-bottom:.3em}
+.cta p{margin:0;color:#D5DEE6}
+.cta .btn{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.cta .btn:hover{background:#f0b93f}
+.status{font-size:.95rem;color:var(--slate);margin-top:14px}
+.legend{display:flex;gap:18px;justify-content:center;font-size:.9rem;color:var(--slate);margin-top:6px;flex-wrap:wrap}
+.legend b{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+
+/* radar */
+svg.radar{width:100%;height:auto;display:block;overflow:visible}
+svg.radar .poly{transform-origin:260px 260px}
+svg.radar.animate .poly{animation:grow .9s cubic-bezier(.2,.7,.2,1) both}
+@keyframes grow{from{transform:scale(.15);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){svg.radar.animate .poly{animation:none}html{scroll-behavior:auto}}
+
+@media (max-width:820px){
+  body{font-size:17px}
+  .hero,.res-top{grid-template-columns:1fr}
+  .shell{grid-template-columns:1fr}
+  .rail{display:none}
+  .mobile-progress{display:block}
+  .cta{grid-template-columns:1fr}
+  .panel{padding:22px}
+  table.map .hide-sm{display:none}
+}
+@media print{
+  header.top,.nav,.cta .btn,.noprint{display:none!important}
+  body{background:#fff}
+  .cta{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .cta h2,.cta p{color:var(--ink)}
+  svg.radar.animate .poly{animation:none}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="mark">New<span>logiq</span></div><small>AI Readiness Assessment</small></div></header>
+<main><div class="wrap" id="app" aria-live="polite"></div></main>
+
+<script>
+/* ============ CONFIGURE THESE TWO LINES ============ */
+var ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbwWWS0d0_qyUPhKxHElNqYyzKqTclKTMLKOyqUsPwleah01gg-T_rdF_1hfRID4wh_l/exec';
+var BOOKING_URL  = 'https://calendar.app.google/TkMFSe5fXcG6FSiZ7';
+/* ================================================== */
+
+/* ===== Newlogiq AI Readiness Assessment: shared core (question bank + scoring) ===== */
+var CORE_VERSION = '1.0';
+
+var AI_USE = ["We aren't using AI here", "A few people experiment on their own", "It's used regularly for specific tasks", "It's built into how we work and we track results"];
+var NEED = ["Very little", "Some", "A significant share of the week", "One of our biggest drains"];
+
+var AREAS = [
+  { id:'SM', group:'function', name:'Sales & Marketing', short:'Sales & Mktg',
+    intro:'How you find, win, and keep customers.',
+    questions:[
+      {id:'SM1', t:'P', q:'How consistently does your team find, follow up with, and win customers?',
+       o:["It depends on who is handling it, and nothing is written down","We have habits, but they vary by person","We have a defined process that is followed in parts","A documented process the whole team follows and we review"]},
+      {id:'SM2', t:'D', q:'Where does your customer and sales information live?',
+       o:["In people's heads, inboxes, or personal spreadsheets","In several spreadsheets or tools that don't connect","In a CRM or similar tool that is incomplete or inconsistently used","In a well-kept CRM that drives our reporting and decisions"]},
+      {id:'SM3', t:'A', q:'How is your team using AI in sales and marketing, for example content, lead research, email, or reporting?', o:AI_USE},
+      {id:'SM4', t:'X', q:'How much time goes to repetitive work such as proposals, follow-ups, lead research, or reports?', o:NEED}
+    ]},
+  { id:'OP', group:'function', name:'Operations & Production', short:'Operations',
+    intro:'How the work gets done, whether you make a product or deliver a service.',
+    questions:[
+      {id:'OP1', t:'P', q:'How standardized are your core operating or production procedures?',
+       o:["Mostly tribal knowledge","Some are written down, often outdated","Documented for key processes but followed unevenly","Documented, current, followed, and regularly improved"]},
+      {id:'OP2', t:'D', q:'How do you capture production, quality, or service-delivery data?',
+       o:["We mostly don't","On paper or in manual spreadsheets","Digitally in some areas","Digitally, and available in near real time"]},
+      {id:'OP3', t:'A', q:'How are AI or automation tools used in operations, for example scheduling, quality checks, maintenance, or work instructions?', o:AI_USE},
+      {id:'OP4', t:'X', q:'How much effort goes to manual data entry, rework, scheduling juggling, or chasing status updates?', o:NEED}
+    ]},
+  { id:'LG', group:'function', name:'Logistics & Supply Chain', short:'Logistics',
+    intro:'How goods, inventory, and deliveries move.',
+    questions:[
+      {id:'LG1', t:'P', q:'How structured is the way you plan shipments, inventory, routes, or deliveries?',
+       o:["Handled day by day as things come up","Habits and spreadsheets that depend on certain people","A defined process with some tool support","A documented, tool-supported process that we review regularly"]},
+      {id:'LG2', t:'D', q:'How visible are your inventory levels and shipment or delivery status?',
+       o:["We find out by asking or checking","Spreadsheets updated by hand","A system covers part of it","Real-time visibility across stock and shipments"]},
+      {id:'LG3', t:'A', q:'How are AI or advanced tools used in logistics, for example demand forecasting, route planning, or tracking?', o:AI_USE},
+      {id:'LG4', t:'X', q:'How often do stockouts, delays, expedited shipping, or manual tracking cost you time or money?',
+       o:["Rarely","A few times a quarter","Most weeks","Constantly"]}
+    ]},
+  { id:'FN', group:'function', name:'Finance', short:'Finance',
+    intro:'Bookkeeping, invoicing, collections, reporting, and forecasting.',
+    questions:[
+      {id:'FN1', t:'P', q:'How reliable are your month-end close, invoicing, and collections?',
+       o:["Often late, mostly manual and reactive","They get done but depend on one or two people","Defined steps, mostly on schedule","A predictable close with documented controls and regular review"]},
+      {id:'FN2', t:'D', q:'How quickly can you see accurate financial results?',
+       o:["Weeks or months after period end","Within a month, after manual cleanup","Within a couple of weeks, from accounting software","Near real time, with dashboards leadership uses"]},
+      {id:'FN3', t:'A', q:'How is AI used in finance, for example forecasting, invoice coding, reconciliation, or collections?', o:AI_USE},
+      {id:'FN4', t:'X', q:'How much finance time goes to manual entry, reconciling, chasing invoices, or building reports by hand?', o:NEED}
+    ]},
+  { id:'PR', group:'function', name:'Procurement', short:'Procurement',
+    intro:'How you source, approve, and buy what the business needs.',
+    questions:[
+      {id:'PR1', t:'P', q:'How consistent is the way you source, approve, and place purchases?',
+       o:["Anyone buys what they need","Informal approvals and a mixed process","A defined approval and purchasing process","A documented process with preferred vendors, approval limits, and reviews"]},
+      {id:'PR2', t:'D', q:'How well do you track vendor pricing, contracts, and spending?',
+       o:["We don't, beyond paying the bills","Partly, in spreadsheets or memory","In accounting or purchasing software, reviewed occasionally","Tracked and reviewed regularly, with contract renewal dates"]},
+      {id:'PR3', t:'A', q:'How is AI used in procurement, for example comparing quotes, reading contracts, or forecasting needs?', o:AI_USE},
+      {id:'PR4', t:'X', q:'How much time goes to quotes, vendor follow-up, purchase-order matching, or tracking down order status?', o:NEED}
+    ]},
+  { id:'HR', group:'function', name:'HR & Administration', short:'HR & Admin',
+    intro:'Hiring, onboarding, people records, and the office work that keeps things running.',
+    questions:[
+      {id:'HR1', t:'P', q:'How consistent are your hiring, onboarding, and employee paperwork processes?',
+       o:["Handled case by case","Informal habits that vary by manager","Defined steps for most of it","Documented, consistent, and reviewed regularly"]},
+      {id:'HR2', t:'D', q:'How well organized is your employee and administrative information?',
+       o:["Paper files and scattered documents","Spreadsheets and shared folders","An HR or payroll system covers the basics","An integrated system with reporting we actually use"]},
+      {id:'HR3', t:'A', q:'How is AI used in HR and administration, for example job posts, screening, policy questions, scheduling, or meeting notes?', o:AI_USE},
+      {id:'HR4', t:'X', q:'How much admin work consumes HR, office, or management time, such as scheduling, forms, repeated questions, or reporting?', o:NEED}
+    ]},
+  { id:'CS', group:'function', name:'Customer Service & Support', short:'Service',
+    intro:'How you answer, help, and retain customers after the sale.',
+    questions:[
+      {id:'CS1', t:'P', q:'How consistently do you handle customer questions, issues, and complaints?',
+       o:["Whoever sees it handles it their own way","Informal habits that vary by person","A defined process with a shared inbox or ticketing","A documented process with response targets and regular review"]},
+      {id:'CS2', t:'D', q:'How well do you track customer requests, issues, and satisfaction?',
+       o:["We don't","In inboxes and memory","In a tool, but we rarely analyze it","Tracked and analyzed to find root causes"]},
+      {id:'CS3', t:'A', q:'How is AI used in customer service, for example drafting replies, routing requests, or answering common questions?', o:AI_USE},
+      {id:'CS4', t:'X', q:'How much of your support work is repeat questions or manual sorting and routing?', o:NEED}
+    ]},
+  { id:'LD', group:'foundation', name:'Leadership & Strategy', short:'Leadership',
+    intro:'Direction, priorities, and how leaders run the business.',
+    questions:[
+      {id:'LD1', t:'P', q:'How clear are your plan and priorities for the next 12 months, and does your team know them?',
+       o:["Mostly in my head","We have goals, but not everyone knows them","A written plan that is shared with the team","A written plan with quarterly priorities, owners, and regular review"]},
+      {id:'LD2', t:'D', q:'How do leaders track how the business is performing?',
+       o:["Gut feel and occasional reports","Financials, reviewed irregularly","A few key measures reviewed monthly","A scorecard of key measures reviewed weekly with clear owners"]},
+      {id:'LD3', t:'A', q:'How clear is your direction on AI?',
+       o:["We haven't discussed it","We're curious but have no direction","We've identified some priorities","We have a clear AI direction with an accountable sponsor"]},
+      {id:'LD4', t:'X', q:'How much leadership time is lost to unclear priorities, recurring issues, or unproductive meetings?',
+       o:["Very little","Some","A noticeable amount","A great deal"]}
+    ]},
+  { id:'IT', group:'foundation', name:'IT, Data & Security', short:'IT & Data',
+    intro:'The systems and data that AI tools will rely on.',
+    questions:[
+      {id:'IT1', t:'P', q:'How well managed are your software, systems, and IT support?',
+       o:["Ad hoc, and people use whatever they like","Basic support with no clear standards","Managed systems with defined owners","Managed, documented, and regularly reviewed, including backups and access"]},
+      {id:'IT2', t:'D', q:'How connected and reliable is your business data across systems?',
+       o:["Scattered across spreadsheets, email, and paper","Mostly in separate tools, moved by hand","Some systems are integrated","Integrated systems with a trusted single source of truth"]},
+      {id:'IT3', t:'A', q:'How ready are your systems to work with AI tools, such as cloud-based software, accessible data, and integrations?',
+       o:["Mostly paper or legacy systems","Some cloud tools, with limited access to our data","Mostly cloud-based, with some integration","Cloud-based with integrations we already use"]},
+      {id:'IT4', t:'X', q:'How exposed do you feel on cybersecurity and data protection?',
+       o:["Confident, with controls in place","Mostly confident","Not sure","Very exposed, or we haven't looked closely"]}
+    ]},
+  { id:'GV', group:'foundation', name:'AI Governance & Risk', short:'AI Governance',
+    intro:'The guardrails that keep AI use safe and responsible.',
+    questions:[
+      {id:'GV1', t:'P', q:'Do you have a written policy on how employees may use AI tools?',
+       o:["No policy, and we haven't considered one","Verbal guidance only","A draft or partial policy","A written policy that is communicated and acknowledged"]},
+      {id:'GV2', t:'D', q:'Are there clear rules for what company or customer data may be entered into AI tools?',
+       o:["No rules","An informal understanding","Rules for some types of data","Clear data rules that are communicated and enforced"]},
+      {id:'GV3', t:'A', q:'How are employees using AI at work today?',
+       o:["I don't know what tools people are using","Some use personal accounts with no guidance","Some use it, with informal guidance","It's used through approved tools with clear guidance"]},
+      {id:'GV4', t:'X', q:'How confident are you that customer or confidential data is not being entered into public AI tools?',
+       o:["Very confident","Fairly confident","Not sure","Concerned it may already be happening"]}
+    ]},
+  { id:'PC', group:'foundation', name:'People & Change Readiness', short:'People & Change',
+    intro:'Whether your team has the skills, time, and habits to adopt new tools.',
+    questions:[
+      {id:'PC1', t:'P', q:'How do you train employees on new tools and ways of working?',
+       o:["They figure it out on their own","Occasional informal training","Training for key tools","Structured onboarding and ongoing training programs"]},
+      {id:'PC2', t:'D', q:'How well do you know the skills and digital comfort of your team?',
+       o:["It isn't tracked","Managers have a feel for it","It's partly documented","A skills inventory that we use for planning"]},
+      {id:'PC3', t:'A', q:'What AI training has your team received?',
+       o:["None","A few people explored on their own","An awareness session or resources for some","Role-based AI training for most of the team"]},
+      {id:'PC4', t:'X', q:'How stretched is your team? Is there room to try and adopt new tools?',
+       o:["Plenty of room","Some room","Very little room","None, we're firefighting"]}
+    ]}
+];
+
+var BANDS = [
+  {max:25, name:'Exploring', text:"AI isn't part of how your business runs yet. That can work in your favor: the biggest early gains come from fixing a few foundations and choosing one or two workflows to improve first."},
+  {max:50, name:'Building', text:"You have pockets of structure and some AI use. The next step is to make it deliberate: set priorities, put guardrails in place, and move from individual experiments to shared practice."},
+  {max:75, name:'Scaling', text:"You have solid practices and real AI use in places. The opportunity now is to scale what works, connect your data, and manage risk as use grows."},
+  {max:100, name:'Leading', text:"You are ahead of most companies. The focus now is governance, measurement, and turning AI use into a lasting advantage."}
+];
+
+var BUCKETS = { quick:'Quick win', foundation:'Fix the foundation first', ahead:'Already ahead', later:'Revisit later' };
+
+var QMAP = {};
+AREAS.forEach(function (a) { a.questions.forEach(function (q) { q.area = a.id; QMAP[q.id] = q; }); });
+
+function bandFor(score) {
+  var s = Math.round(score);
+  for (var i = 0; i < BANDS.length; i++) { if (s <= BANDS[i].max) return BANDS[i]; }
+  return BANDS[BANDS.length - 1];
+}
+
+function bucketFor(a, F) {
+  if (a.need >= 2) return (a.readiness >= 40 && F >= 35) ? 'quick' : 'foundation';
+  if (a.readiness >= 60) return 'ahead';
+  return 'later';
+}
+
+function computeResults(answers, skipped) {
+  skipped = skipped || [];
+  answers = answers || {};
+  var res = { areas: {}, missing: [] };
+  var wSum = 0, wTot = 0, fSum = 0, fN = 0;
+  AREAS.forEach(function (a) {
+    if (a.group === 'function' && skipped.indexOf(a.id) > -1) {
+      res.areas[a.id] = { id: a.id, name: a.name, short: a.short, group: a.group, skipped: true };
+      return;
+    }
+    var r = 0, n = 0, need = 0, scores = {};
+    a.questions.forEach(function (q) {
+      var v = answers[q.id];
+      if (typeof v !== 'number' || v % 1 !== 0 || v < 0 || v > 3) { res.missing.push(q.id); return; }
+      scores[q.t] = v;
+      if (q.t === 'X') { need = v; } else { r += v; n++; }
+    });
+    var rp = n ? r / (3 * n) : 0;
+    res.areas[a.id] = { id: a.id, name: a.name, short: a.short, group: a.group, skipped: false,
+                        readiness: Math.round(rp * 100), need: need, scores: scores };
+    var w = a.group === 'foundation' ? 1.25 : 1;
+    wSum += rp * w; wTot += w;
+    if (a.group === 'foundation') { fSum += rp; fN++; }
+  });
+  res.overall = wTot ? Math.round(wSum / wTot * 100) : 0;
+  res.foundation = fN ? Math.round(fSum / fN * 100) : 0;
+  res.band = bandFor(res.overall);
+  AREAS.forEach(function (a) {
+    var x = res.areas[a.id];
+    if (!x.skipped && x.group === 'function') { x.bucket = bucketFor(x, res.foundation); }
+  });
+  res.complete = res.missing.length === 0;
+  return res;
+}
+
+function buildSummary(res) {
+  var active = AREAS.map(function (a) { return res.areas[a.id]; }).filter(function (a) { return !a.skipped; });
+  var strengths = active.slice().sort(function (x, y) { return y.readiness - x.readiness; }).slice(0, 2);
+  var opportunities = active.filter(function (a) { return a.group === 'function' && a.need >= 2; })
+    .sort(function (x, y) { return (y.need - x.need) || (y.readiness - x.readiness); }).slice(0, 3);
+  var gaps = active.filter(function (a) { return a.group === 'foundation' && a.readiness < 40; })
+    .sort(function (x, y) { return x.readiness - y.readiness; }).slice(0, 2);
+  var F = res.foundation, note;
+  if (F < 35) note = "Your foundations need attention before you invest heavily in AI tools. Getting these right is what makes the rest pay off.";
+  else if (F < 60) note = "Your foundations are workable, with some gaps worth closing as you add AI to more of the business.";
+  else note = "Your foundations are solid, which puts you in a good position to move quickly.";
+  return { strengths: strengths, opportunities: opportunities, gaps: gaps, foundationNote: note, band: res.band };
+}
+
+function optionText(qid, idx) {
+  var q = QMAP[qid];
+  return (q && q.o[idx] !== undefined) ? q.o[idx] : '';
+}
+
+
+var ROLES = ['Owner / CEO / President','Other executive or general manager','Other'];
+var INDUSTRIES = ['Manufacturing','Construction & trades','Professional services','Healthcare & life sciences','Retail & e-commerce','Distribution & wholesale','Financial services & real estate','Hospitality & food service','Technology','Nonprofit, education & government','Other'];
+var SIZES = ['1-9','10-49','50-99','100-249','250+'];
+var STORE_KEY = 'nlq-ai-readiness-v1';
+var STEPS = ['intro','intake'].concat(AREAS.map(function(a){return a.id;})).concat(['contact','results']);
+
+var state = { step:'intro', company:'', role:'', industry:'', size:'', name:'', email:'', consent:false, timeLoss:'', firstFix:'', answers:{}, skipped:[] };
+var app = document.getElementById('app');
+var submitted = false;
+var resumeStep = null;
+
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+function load(){ try{ var s = JSON.parse(localStorage.getItem(STORE_KEY)||'null'); if(s && s.step && s.step!=='results'){ for(var k in s){ state[k]=s[k]; } resumeStep = s.step; state.step='intro'; return true; } }catch(e){} return false; }
+function clearSaved(){ try{ localStorage.removeItem(STORE_KEY); }catch(e){} }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function areaDone(a){ if(a.group==='function' && state.skipped.indexOf(a.id)>-1) return true; return a.questions.every(function(q){ return typeof state.answers[q.id]==='number'; }); }
+function areaIndex(id){ for(var i=0;i<AREAS.length;i++){ if(AREAS[i].id===id) return i; } return -1; }
+function bookingReady(){ return BOOKING_URL && !/^PASTE_/.test(BOOKING_URL); }
+function endpointReady(){ return ENDPOINT_URL && !/^PASTE_/.test(ENDPOINT_URL); }
+
+function go(step){
+  state.step = step; save(); render();
+  window.scrollTo(0,0);
+  var h = document.getElementById('screen-title'); if(h){ h.focus(); }
+}
+
+/* ---------- radar ---------- */
+function radarSVG(res, opts){
+  opts = opts || {};
+  var cx=260, cy=260, R=172, n=AREAS.length, pts=[], dots='', labels='', axes='', rings='';
+  [25,50,75,100].forEach(function(p){
+    var ring=[]; for(var i=0;i<n;i++){ var ang=(-90+i*360/n)*Math.PI/180; ring.push((cx+R*p/100*Math.cos(ang)).toFixed(1)+','+(cy+R*p/100*Math.sin(ang)).toFixed(1)); }
+    rings += '<polygon points="'+ring.join(' ')+'" fill="none" stroke="#D3DCE2" stroke-width="1"/>';
+  });
+  AREAS.forEach(function(a,i){
+    var ang=(-90+i*360/n)*Math.PI/180, c=Math.cos(ang), s=Math.sin(ang);
+    var x=res.areas[a.id], v = x.skipped?0:x.readiness;
+    pts.push((cx+R*v/100*c).toFixed(1)+','+(cy+R*v/100*s).toFixed(1));
+    axes += '<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R*c).toFixed(1)+'" y2="'+(cy+R*s).toFixed(1)+'" stroke="#D3DCE2"/>';
+    if(!x.skipped) dots += '<circle cx="'+(cx+R*v/100*c).toFixed(1)+'" cy="'+(cy+R*v/100*s).toFixed(1)+'" r="4.5" fill="'+(a.group==='foundation'?'#E3A82B':'#0F7B8A')+'" stroke="#fff" stroke-width="1.5"/>';
+    var lx=cx+(R+16)*c, ly=cy+(R+16)*s+(s>0.5?10:(s<-0.5?-2:4));
+    var anchor = c>0.25?'start':(c<-0.25?'end':'middle');
+    var fill = a.group==='foundation'?'#8A5F00':'#12263A';
+    labels += '<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="'+anchor+'" font-size="15" font-weight="600" fill="'+fill+'" font-family="Source Sans 3,Segoe UI,sans-serif">'+esc(a.short)+(x.skipped?' (n/a)':'')+'</text>';
+  });
+  return '<svg class="radar'+(opts.animate?' animate':'')+'" viewBox="-75 35 670 450" role="img" aria-label="'+esc(opts.label||'Readiness by area')+'">'
+    +rings+axes
+    +'<g class="poly"><polygon points="'+pts.join(' ')+'" fill="rgba(15,123,138,.22)" stroke="#0F7B8A" stroke-width="2.5" stroke-linejoin="round"/>'+dots+'</g>'
+    +labels+'</svg>';
+}
+function sampleResult(){
+  var vals={SM:55,OP:40,LG:30,FN:62,PR:35,HR:45,CS:50,LD:58,IT:48,GV:22,PC:36}, r={areas:{}};
+  AREAS.forEach(function(a){ r.areas[a.id]={readiness:vals[a.id],skipped:false,short:a.short,group:a.group}; });
+  return r;
+}
+
+/* ---------- screens ---------- */
+function railHTML(current){
+  var html='<nav class="rail" aria-label="Progress"><h3>Business functions</h3><ol>', lastGroup='function';
+  AREAS.forEach(function(a){
+    if(a.group!==lastGroup){ html+='</ol><h3>Foundations for AI</h3><ol>'; lastGroup=a.group; }
+    var cls = a.id===current?'current':(areaDone(a)?'done':'');
+    var clickable = areaDone(a) && a.id!==current;
+    html += '<li class="'+cls+'"><'+(clickable?'button type="button" data-go="'+a.id+'"':'span')+' class="item"><i class="dot"></i>'+esc(a.name)+'</'+(clickable?'button':'span')+'></li>';
+  });
+  return html+'</ol></nav>';
+}
+
+function viewIntro(){
+  var resume = !!resumeStep && (Object.keys(state.answers).length>0 || state.company);
+  return '<section class="hero">'
+   +'<div><h1 id="screen-title" tabindex="-1">How ready is your business for AI?</h1>'
+   +'<p class="lead">A 12-minute self-assessment across seven business functions and the four foundations that make AI work. You get an instant score, a map of where AI can help first, and a clear starting point for a conversation with Newlogiq.</p>'
+   +'<ul><li><strong>Where you stand</strong>A readiness score and a picture of every area of the business.</li>'
+   +'<li><strong>Where to start</strong>The functions with the most to gain, and what to fix first.</li>'
+   +'<li><strong>What happens next</strong>Your results are emailed to you, and you can book a debrief to turn them into a plan.</li></ul>'
+   +'<button class="btn" type="button" id="start">'+(resume?'Resume the assessment':'Start the assessment')+'</button>'
+   +(resume?' <button class="link" type="button" id="restart" style="margin-left:14px">Start over</button>':'')
+   +'<p class="hint" style="margin-top:16px">Answer for your company as it works today, not as you want it to. There are no wrong answers.</p></div>'
+   +'<figure class="sample" aria-hidden="true">'+radarSVG(sampleResult(),{label:'Sample readiness map'})+'<figcaption>A sample readiness map</figcaption></figure></section>';
+}
+
+function viewIntake(){
+  function sel(id,label,opts,val){ return '<div class="field"><label class="lbl" for="'+id+'">'+label+'</label><select id="'+id+'"><option value="">Choose one</option>'+opts.map(function(o){return '<option'+(o===val?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select></div>'; }
+  return '<div class="panel" style="max-width:640px;margin:0 auto"><h2 id="screen-title" tabindex="-1">About your company</h2><p class="step-intro">Four quick details so we can put your results in context.</p>'
+   +'<div class="field"><label class="lbl" for="company">Company name</label><input type="text" id="company" autocomplete="organization" value="'+esc(state.company)+'"></div>'
+   +sel('role','Your role',ROLES,state.role)+sel('industry','Industry',INDUSTRIES,state.industry)+sel('size','Number of employees',SIZES,state.size)
+   +'<div class="err" id="err" role="alert"></div>'
+   +'<div class="nav"><button class="btn ghost" type="button" data-go="intro">Back</button><button class="btn" type="button" id="next">Continue</button></div></div>';
+}
+
+function viewArea(id){
+  var a = AREAS[areaIndex(id)], i = areaIndex(id), isSkipped = state.skipped.indexOf(id)>-1;
+  var h = '<div class="mobile-progress"><div class="hint">Section '+(i+1)+' of '+AREAS.length+'</div><div class="bar"><i style="width:'+Math.round((i)/AREAS.length*100)+'%"></i></div></div>';
+  h += '<div class="shell">'+railHTML(id)+'<div class="panel"><h2 id="screen-title" tabindex="-1">'+esc(a.name)+'</h2><p class="step-intro">'+esc(a.intro)+'</p>';
+  if(isSkipped){
+    h += '<p class="skipped-note">You marked this as not applying to your business, so it is left out of your score.</p>';
+  } else {
+    a.questions.forEach(function(q){
+      h += '<fieldset class="q"><legend>'+esc(q.q)+'</legend>';
+      q.o.forEach(function(opt,k){
+        h += '<label class="opt"><input type="radio" name="'+q.id+'" value="'+k+'"'+(state.answers[q.id]===k?' checked':'')+'><span>'+esc(opt)+'</span></label>';
+      });
+      h += '</fieldset>';
+    });
+  }
+  if(a.group==='function'){
+    h += '<div class="skip"><label class="check"><input type="checkbox" id="skipbox"'+(isSkipped?' checked':'')+'><span>This area doesn\'t apply to our business</span></label></div>';
+  }
+  var last = i===AREAS.length-1;
+  h += '<div class="err" id="err" role="alert"></div><div class="nav"><button class="btn ghost" type="button" id="back">Back</button><button class="btn" type="button" id="next" '+(areaDone(a)?'':'disabled')+'>'+(last?'Almost done':'Next section')+'</button></div>';
+  h += '</div></div>';
+  return h;
+}
+
+function viewContact(){
+  return '<div class="panel" style="max-width:680px;margin:0 auto"><h2 id="screen-title" tabindex="-1">Where should we send your results?</h2>'
+   +'<p class="step-intro">Your score and map appear on the next screen. We will also email you a copy.</p>'
+   +'<div class="field"><label class="lbl" for="name">Your name</label><input type="text" id="name" autocomplete="name" value="'+esc(state.name)+'"></div>'
+   +'<div class="field"><label class="lbl" for="email">Work email</label><input type="email" id="email" autocomplete="email" value="'+esc(state.email)+'"></div>'
+   +'<div class="field"><label class="lbl" for="timeLoss">Where does your team lose the most time? <span class="hint">(optional)</span></label><textarea id="timeLoss">'+esc(state.timeLoss)+'</textarea></div>'
+   +'<div class="field"><label class="lbl" for="firstFix">If AI could fix one thing first, what would it be? <span class="hint">(optional)</span></label><textarea id="firstFix">'+esc(state.firstFix)+'</textarea></div>'
+   +'<div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" id="hp" tabindex="-1" autocomplete="off"></label></div>'
+   +'<div class="field"><label class="check"><input type="checkbox" id="consent"'+(state.consent?' checked':'')+'><span>I agree that Newlogiq may email me my results and follow up about them. I can opt out at any time.</span></label></div>'
+   +'<div class="err" id="err" role="alert"></div>'
+   +'<div class="nav"><button class="btn ghost" type="button" id="back">Back</button><button class="btn" type="button" id="submit">See my results</button></div></div>';
+}
+
+function viewResults(){
+  var res = computeResults(state.answers, state.skipped), sum = buildSummary(res);
+  var h = '<section class="res-top"><div><h1 id="screen-title" tabindex="-1" style="font-size:clamp(1.6rem,3.4vw,2.2rem)">'+esc(state.company||'Your')+' AI readiness</h1>'
+   +'<div class="score">'+res.overall+'<small> / 100</small></div><div class="bandname">'+esc(res.band.name)+'</div><p>'+esc(res.band.text)+'</p>';
+  h += '<h3>Strongest areas</h3><ul class="res-list">'+sum.strengths.map(function(a){return '<li><strong>'+esc(a.name)+'</strong> ('+a.readiness+'%)</li>';}).join('')+'</ul>';
+  if(sum.opportunities.length){
+    h += '<h3>Where AI could help first</h3><ul class="res-list">'+sum.opportunities.map(function(a){return '<li><strong>'+esc(a.name)+'</strong>: <span class="tag '+a.bucket+'">'+BUCKETS[a.bucket]+'</span></li>';}).join('')+'</ul>';
+  }
+  h += '<p>'+esc(sum.foundationNote)+'</p></div>'
+   +'<div><div id="radarbox">'+radarSVG(res,{animate:true,label:'Readiness by area: '+AREAS.map(function(a){var x=res.areas[a.id];return a.short+' '+(x.skipped?'not applicable':x.readiness+' percent');}).join(', ')})+'</div>'
+   +'<div class="legend"><span><b style="background:#0F7B8A"></b>Business functions</span><span><b style="background:#E3A82B"></b>Foundations</span></div></div></section>';
+
+  h += '<section style="margin-top:44px"><h2>Area by area</h2><table class="map"><thead><tr><th>Area</th><th>Readiness</th><th>What it means</th></tr></thead><tbody>';
+  AREAS.forEach(function(a){
+    var x=res.areas[a.id];
+    if(x.skipped){ h+='<tr><td>'+esc(a.name)+'</td><td class="hint">Not applicable</td><td></td></tr>'; return; }
+    var tag;
+    if(x.group==='function'){ tag='<span class="tag '+x.bucket+'">'+BUCKETS[x.bucket]+'</span>'; }
+    else { var t = x.readiness>=60?['ahead','Solid']:(x.readiness>=40?['later','Workable']:['foundation','Needs attention']); tag='<span class="tag '+t[0]+'">'+t[1]+'</span>'; }
+    h += '<tr><td><strong>'+esc(a.name)+'</strong></td><td><div style="display:flex;gap:10px;align-items:center"><div class="meter'+(x.group==='foundation'?' f':'')+'" style="flex:1" role="img" aria-label="'+x.readiness+' percent"><i style="width:'+x.readiness+'%"></i></div><span>'+x.readiness+'%</span></div></td><td>'+tag+'</td></tr>';
+  });
+  h += '</tbody></table><p class="hint" style="margin-top:12px"><strong>Quick win</strong>: real pain and enough readiness to act now. <strong>Fix the foundation first</strong>: real pain, but process, data, or foundations need work before tools will pay off.</p></section>';
+
+  h += '<section class="cta"><div><h2>Turn these results into a plan</h2><p>In a 30-minute debrief we will walk through your map, pick the first two or three moves, and show you what a practical roadmap looks like. No obligation.</p></div>'
+    +(bookingReady()?'<a class="btn" href="'+esc(BOOKING_URL)+'" target="_blank" rel="noopener">Book your debrief</a>':'<span>Reply to the results email to set up your debrief.</span>')+'</section>';
+  h += '<p class="status" id="status" role="status"></p><p class="noprint"><button class="link" type="button" id="print">Print or save as PDF</button></p>';
+  return h;
+}
+
+function render(){
+  var s = state.step, html='';
+  if(s==='intro') html=viewIntro();
+  else if(s==='intake') html=viewIntake();
+  else if(s==='contact') html=viewContact();
+  else if(s==='results') html=viewResults();
+  else html=viewArea(s);
+  app.innerHTML = html;
+}
+
+/* ---------- events ---------- */
+app.addEventListener('click', function(e){
+  var t = e.target.closest('button,a'); if(!t) return;
+  if(t.dataset && t.dataset.go){ go(t.dataset.go); return; }
+  var id = t.id;
+  if(id==='start'){ var to = resumeStep && resumeStep!=='intro' ? resumeStep : 'intake'; resumeStep=null; go(to); return; }
+  if(id==='restart'){ clearSaved(); resumeStep=null; state={step:'intro',company:'',role:'',industry:'',size:'',name:'',email:'',consent:false,timeLoss:'',firstFix:'',answers:{},skipped:[]}; render(); return; }
+  if(id==='print'){ window.print(); return; }
+  var i = STEPS.indexOf(state.step);
+  if(id==='back'){ go(STEPS[i-1]); return; }
+  if(id==='next'){
+    if(state.step==='intake'){
+      state.company = document.getElementById('company').value.trim();
+      state.role = document.getElementById('role').value; state.industry = document.getElementById('industry').value; state.size = document.getElementById('size').value;
+      if(!state.company||!state.role||!state.industry||!state.size){ document.getElementById('err').textContent='Please complete all four fields to continue.'; return; }
+      go(STEPS[i+1]); return;
+    }
+    go(STEPS[i+1]); return;
+  }
+  if(id==='submit'){ submit(); }
+});
+
+app.addEventListener('change', function(e){
+  var t = e.target;
+  if(t.type==='radio'){
+    state.answers[t.name] = parseInt(t.value,10); save();
+    var a = AREAS[areaIndex(state.step)]; var nb = document.getElementById('next'); if(nb) nb.disabled = !areaDone(a);
+    var rail = document.querySelector('.rail'); if(rail){ rail.outerHTML = railHTML(state.step); }
+  } else if(t.id==='skipbox'){
+    var idx = state.skipped.indexOf(state.step);
+    if(t.checked && idx<0) state.skipped.push(state.step);
+    if(!t.checked && idx>-1) state.skipped.splice(idx,1);
+    save(); render(); var cb=document.getElementById('skipbox'); if(cb) cb.focus();
+  }
+});
+
+function submit(){
+  var err = document.getElementById('err');
+  state.name = document.getElementById('name').value.trim();
+  state.email = document.getElementById('email').value.trim();
+  state.timeLoss = document.getElementById('timeLoss').value.trim();
+  state.firstFix = document.getElementById('firstFix').value.trim();
+  state.consent = document.getElementById('consent').checked;
+  var hp = document.getElementById('hp').value;
+  if(!state.name){ err.textContent='Please enter your name.'; return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)){ err.textContent='Please enter a valid email address.'; return; }
+  if(!state.consent){ err.textContent='Please tick the box so we can send your results.'; return; }
+  var check = computeResults(state.answers, state.skipped);
+  if(!check.complete){ err.textContent='Some questions are unanswered. Please go back and finish every section.'; return; }
+  save(); go('results');
+  var payload = { v:CORE_VERSION, hp:hp, answers:state.answers, skipped:state.skipped,
+    intake:{ company:state.company, role:state.role, industry:state.industry, size:state.size, name:state.name, email:state.email, timeLoss:state.timeLoss, firstFix:state.firstFix, consent:true } };
+  var st = document.getElementById('status');
+  if(!endpointReady()){ st.textContent='Preview mode: no results endpoint is configured, so nothing was emailed or saved.'; clearSaved(); return; }
+  if(submitted){ return; }
+  submitted = true;
+  st.textContent = 'Sending your results by email...';
+  fetch(ENDPOINT_URL,{ method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) })
+    .then(function(){ st.textContent='A copy of your results is on its way to '+state.email+'. It can take a minute to arrive, so check spam if you do not see it.'; clearSaved(); })
+    .catch(function(){ submitted=false; st.textContent='We could not send your email copy. Please use "Print or save as PDF" below to keep your results.'; });
+}
+
+load();
+render();
+</script>
+</body>
+</html>
